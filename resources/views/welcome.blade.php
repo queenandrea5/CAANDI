@@ -119,8 +119,10 @@
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="{{ route('login') }}">Login</a></li>
                 <li><a href="{{ route('register') }}">Register</a></li>
+                <li><a href="{{ route('profil') }}">profil</a></li>
                 <li><a href="pageenclo.html">Biomes</a></li>
                 <li><a href="{{ route('services') }}">Nos Services</a></li>
+            
                 <li><a href="{{ route('billetterie.submit') }}">Billetterie</a></li>
             </ul>
         </nav>

@@ -26,3 +26,9 @@ Route::get('/services', function () {
 Route::get('/billet', function () {
     return view('billet');
 })->name('billetterie.submit');
+
+Route::get('/profil', function () {
+    return view('profil');
+})->name('profil');
+
+
