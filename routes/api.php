@@ -3,11 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BilletController;
-/*
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');*/
+use App\Http\Controllers\TicketController;
+
+
+
+Route::get('/hazaro', function () {
+    return 'bonjour';
+});/*->middleware('auth:sanctum');*/
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -24,3 +26,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/billets', [BilletController::class, 'index']); // Lister tous les billets
     Route::get('/billets/{id}', [BilletController::class, 'show']); // Voir un billet spécifique
 });
+
+Route::post('/tickets/purchase', [TicketController::class, 'purchase']);
