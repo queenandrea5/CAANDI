@@ -39,3 +39,7 @@ Route::get('/carte', function () {
     return view('carte');
 })->name('carte');
 
+Route::get('/biomes', function () {
+  return view('biome');
+})->name('Biomes');
+

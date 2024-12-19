@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\BiomeController;
 
 
 Route::get('/hazaro', function () {
@@ -61,7 +61,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 Route::get('/users/{id}', [UserController::class, 'show']);
 
-
+Route::get('/animals', [AnimalController::class, 'getAnimals']);
+Route::get('/biomes', [BiomeController::class, 'getAllBiomes']);
+//Route::get('/animals/{enclosure_id}', [AnimalController::class, 'getAnimals']);
 //Route::get('/animals', [AnimalController::class, 'index']); // Lister tous les animaux
 
 //Route::get('/animals/{id}', [AnimalController::class, 'show']); // Afficher un animal
