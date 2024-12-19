@@ -143,7 +143,7 @@
             <!-- Café Nomade -->
             <div class="col-md-4">
                 <div class="card service-card">
-                    <img src="/images/services/cafe-nomade.jpg" alt="Café Nomade" class="card-img-top">
+                    <img src="/images/services/cafénomade.jpg" alt="Café Nomade" class="card-img-top">
                     <div class="card-body text-center">
                         <h5 class="service-card-title">Café Nomade</h5>
                         <p class="service-card-text">Des boissons chaudes et froides pour recharger vos batteries.</p>
@@ -180,6 +180,16 @@
                     <div class="card-body text-center">
                         <h5 class="service-card-title">Espace Pique-nique</h5>
                         <p class="service-card-text">Un cadre naturel pour partager un repas en famille ou entre amis.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- point de vue -->
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="/images/services/point.jpg" alt="point de vue" class="card-img-top">
+                    <div class="card-body text-center">
+                        <h5 class="service-card-title">point de vue</h5>
+                        <p class="service-card-text">espace aménagé pour offrir aux visiteurs une vue privilégiée sur les animaux.</p>
                     </div>
                 </div>
             </div>

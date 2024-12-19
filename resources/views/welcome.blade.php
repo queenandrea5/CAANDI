@@ -124,6 +124,7 @@
                 <li><a href="{{ route('services') }}">Nos Services</a></li>
             
                 <li><a href="{{ route('billetterie.submit') }}">Billetterie</a></li>
+                <li><a href="{{ route('carte') }}">carte</a></li>
             </ul>
         </nav>
         <!-- Logo -->
@@ -134,7 +135,7 @@
 
     <!-- Contenu principal -->
     <div class="content">
-        <h1>Bienvenue au Parc Zoo</h1>
+        <h1>Bienvenue au Parc Zoo DIAN</h1>
         <p>Explorez nos merveilles animales et plongez dans des habitats fascinants.</p>
         <a href="{{ route('billetterie.submit') }}" class="btn btn-custom">Réserver Maintenant</a>
     </div>

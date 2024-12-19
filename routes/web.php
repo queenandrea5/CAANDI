@@ -31,4 +31,11 @@ Route::get('/profil', function () {
     return view('profil');
 })->name('profil');
 
+Route::get('/vuebillet', function () {
+    return view('vuebillet');
+})->name('vuebillet');
+
+Route::get('/carte', function () {
+    return view('carte');
+})->name('carte');
 
