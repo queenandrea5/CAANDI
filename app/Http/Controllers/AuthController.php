@@ -34,6 +34,14 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+            
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                $token = $user->createToken('AdminToken')->plainTextToken;
+                return response()->json(['token' => $token]);
+            }
+        }
 
         if (!auth()->attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);

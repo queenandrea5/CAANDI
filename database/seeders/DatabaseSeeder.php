@@ -2,22 +2,31 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Biome;
+use App\Models\Enclosure;
+use App\Models\Animal;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
-    public function run(): void
+    public function run()
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Créer un biome
+        $biome = Biome::create([
+            'name' => 'Savane',
+            'color' => '#FFD700',
         ]);
+
+        // Créer un enclos pour ce biome
+        $enclosure = Enclosure::create([
+            'biome_id' => $biome->id,
+            'meal' => 'Herbivore',
+        ]);
+
+        // Ajouter des animaux dans cet enclos
+        Animal::create(['enclosure_id' => $enclosure->id, 'name' => 'Lion']);
+        Animal::create(['enclosure_id' => $enclosure->id, 'name' => 'Zèbre']);
+        Animal::create(['enclosure_id' => $enclosure->id, 'name' => 'Éléphant']);
     }
 }
+
