@@ -14,4 +14,17 @@ class BiomeController extends Controller
 
         return response()->json($biomes);
     }
+
+    // BiomeController.php
+
+public function searchBiomes(Request $request)
+{
+    $query = $request->input('name');
+    
+    // Assurez-vous que la requête est bien filtrée
+    $biomes = Biome::where('name', 'like', '%' . $query . '%')->get();
+
+    return response()->json($biomes);
+}
+
 }

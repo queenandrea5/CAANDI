@@ -70,10 +70,9 @@
             width: 700px;
         }
 
-        /* Allonger la barre de recherche */
         .search-bar {
-            width: 100%; /* Allonge la barre à 100% */
-            max-width: 800px; /* Limite la largeur à 800px */
+            width: 100%;
+            max-width: 800px;
         }
 
         .dropdown-menu {
@@ -100,28 +99,31 @@
             font-weight: bold;
         }
 
+        #error-message {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <!-- Menu horizontal -->
+    <!-- Menu horizontal sans le bouton "Biome" -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Biomes</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/animaux">Animaux</a>
+                        <a class="nav-link" href="/all/animals">Animaux</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/enclos">Enclos</a>
+                        <a class="nav-link" href="/all/enclos">Enclos</a>
                     </li>
                 </ul>
-                <!-- Barre de recherche allongée -->
+                <!-- Barre de recherche allongée pour les biomes -->
                 <form class="d-flex ms-auto" role="search" id="searchForm">
-                    <input class="form-control me-2 search-bar" type="search" placeholder="Rechercher un enclos, animal ou biome" aria-label="Search" id="searchQuery">
+                    <input class="form-control me-2 search-bar" type="search" placeholder="Rechercher un biome" aria-label="Search" id="searchQuery">
                     <ul class="dropdown-menu" id="searchResults" aria-labelledby="searchQuery">
                         <!-- Les résultats de la recherche seront injectés ici via JavaScript -->
                     </ul>
@@ -135,6 +137,7 @@
         <div class="biome-container" id="biome-list">
             <!-- Les biomes seront injectés ici via JavaScript -->
         </div>
+        <div id="error-message">Aucun biome trouvé.</div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -160,16 +163,15 @@
         async function getBiomes() {
             try {
                 const response = await fetch('/api/biomes');
+                if (!response.ok) throw new Error('Failed to fetch biomes.');
                 const biomes = await response.json();
-
                 const biomeList = document.getElementById('biome-list');
+                biomeList.innerHTML = '';
                 biomes.forEach(biome => {
                     const biomeCard = document.createElement('div');
                     biomeCard.classList.add('biome-card');
                     biomeCard.style.backgroundColor = biome.color;
-                    biomeCard.innerHTML = `
-                        <span>${biome.name}</span>
-                    `;
+                    biomeCard.innerHTML = `<span>${biome.name}</span>`;
                     biomeCard.addEventListener('click', () => {
                         window.location.href = `/enclos/${biome.id}`;
                     });
@@ -180,39 +182,32 @@
             }
         }
 
-        // Fonction de recherche dynamique
         document.getElementById('searchQuery').addEventListener('input', async function(event) {
             const query = event.target.value;
-
             if (query.length < 3) {
-                document.getElementById('searchResults').innerHTML = ''; // Clear search results if query is too short
+                document.getElementById('searchResults').innerHTML = '';
                 return;
             }
 
             try {
-                const response = await fetch(`/api/search?name=${query}`);
+                const response = await fetch(`/api/biomes/search?name=${query}`);
+                if (!response.ok) throw new Error('Failed to fetch search results.');
                 const result = await response.json();
-
                 const searchResultsContainer = document.getElementById('searchResults');
-                searchResultsContainer.innerHTML = ''; // Clear previous results
-
+                searchResultsContainer.innerHTML = '';
                 if (result.length === 0) {
-                    searchResultsContainer.innerHTML = '<li class="dropdown-item">Aucun résultat trouvé.</li>';
-                    return;
+                    searchResultsContainer.innerHTML = '<li class="dropdown-item">Aucun biome trouvé.</li>';
+                } else {
+                    result.forEach(item => {
+                        const resultItem = document.createElement('li');
+                        resultItem.classList.add('dropdown-item');
+                        resultItem.innerHTML = `<span>${item.name}</span>`;
+                        resultItem.addEventListener('click', () => {
+                            window.location.href = `/enclos/${item.id}`;
+                        });
+                        searchResultsContainer.appendChild(resultItem);
+                    });
                 }
-
-                result.forEach(item => {
-                    const resultItem = document.createElement('li');
-                    resultItem.classList.add('search-result-item');
-                    resultItem.innerHTML = `
-                        <div class="search-result">
-                            <span>${item.name}</span>
-                            <span class="arrow">→</span>
-                            <span>${item.enclosure}</span>
-                        </div>
-                    `;
-                    searchResultsContainer.appendChild(resultItem);
-                });
             } catch (error) {
                 console.error('Error fetching search results:', error);
             }

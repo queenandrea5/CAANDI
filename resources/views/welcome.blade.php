@@ -102,6 +102,32 @@
             background-color: #0056b3;
             transform: translateY(-2px);
         }
+
+        /* Style pour le pied de page */
+        .footer {
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .footer a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -119,12 +145,11 @@
                 <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><a href="{{ route('login') }}">Login</a></li>
                 <li><a href="{{ route('register') }}">Register</a></li>
-                <li><a href="{{ route('profil') }}">profil</a></li>
+                <li><a href="{{ route('profil') }}">Profil</a></li>
                 <li><a href="{{ route('Biomes') }}">Biomes</a></li>
                 <li><a href="{{ route('services') }}">Nos Services</a></li>
-            
                 <li><a href="{{ route('billetterie.submit') }}">Billetterie</a></li>
-                <li><a href="{{ route('carte') }}">carte</a></li>
+                <li><a href="{{ route('carte') }}">Carte</a></li>
             </ul>
         </nav>
         <!-- Logo -->
@@ -138,6 +163,11 @@
         <h1>Bienvenue au Parc Zoo DIAN</h1>
         <p>Explorez nos merveilles animales et plongez dans des habitats fascinants.</p>
         <a href="{{ route('billetterie.submit') }}" class="btn btn-custom">Réserver Maintenant</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Made by <strong>Andrea and Dimitri</strong>,   @2024</p>
     </div>
 
     <!-- Bootstrap JS -->

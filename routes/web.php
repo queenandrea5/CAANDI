@@ -7,6 +7,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/all/animals', function () {
+    return view('allAnimals');
+})->name('allAnimals');
+
+Route::get('/all/enclos', function () {
+    return view('allEnclos');
+})->name('allEnclos');
 
 Route::get('/login', function () {
     return view('login');

@@ -33,8 +33,8 @@
 
         .animal-photo {
             height: 200px;
-            background-size: cover;
-            background-position: center;
+            width: 100%;
+            object-fit: cover;
         }
 
         .animal-name {
@@ -70,7 +70,7 @@
             color: red;
             font-size: 36px;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Effet 3D */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
         }
 
         #search-result-message {
@@ -107,99 +107,137 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const enclosureId = "{{ $enclosureId }}"; // Récupération de l'ID de l'enclos
-            const animalList = document.getElementById('animal-list');
-            const errorMessage = document.getElementById('error-message');
-            const searchInput = document.getElementById('search-input');
-            const searchResultMessage = document.getElementById('search-result-message');
-            const searchQuerySpan = document.getElementById('search-query');
+    document.addEventListener('DOMContentLoaded', function () {
+        const enclosureId = "{{ $enclosureId }}"; // Récupération de l'ID de l'enclos
+        const animalList = document.getElementById('animal-list');
+        const errorMessage = document.getElementById('error-message');
+        const searchInput = document.getElementById('search-input');
+        const searchResultMessage = document.getElementById('search-result-message');
+        const searchQuerySpan = document.getElementById('search-query');
 
-            // Fonction pour afficher les animaux
-            function displayAnimals(animals) {
-                animalList.innerHTML = ''; // Réinitialiser la liste avant d'ajouter des éléments
-                errorMessage.style.display = 'none'; // Cacher le message d'erreur avant l'affichage des résultats
+        // Liste des images par défaut
+        const defaultImages = [
+            "/images/404.png",
+            "/images/dog-404.png",
+            "/images/erreur-76870840.webp",
+            "/images/animal4.jpg",
+            "/images/错误-58384882.jpg",
+            "/images/R.jpg"
+        ];
 
-                if (animals.length === 0) {
-                    errorMessage.style.display = 'block';
-                    return;
-                }
+        // Fonction pour obtenir une image par défaut aléatoire
+        function getRandomDefaultImage() {
+            const randomIndex = Math.floor(Math.random() * defaultImages.length);
+            return defaultImages[randomIndex];
+        }
 
-                animals.forEach(animal => {
-                    // Vérifier si l'animal a un nom et une photo valides
-                    if (animal.name && animal.photo) {
-                        const animalCard = document.createElement('div');
-                        animalCard.classList.add('animal-card');
+        // Fonction pour afficher les animaux
+        function displayAnimals(animals) {
+            animalList.innerHTML = ''; // Réinitialiser la liste avant d'ajouter des éléments
+            errorMessage.style.display = 'none'; // Cacher le message d'erreur avant l'affichage des résultats
 
-                        const animalPhoto = document.createElement('div');
-                        animalPhoto.classList.add('animal-photo');
-                        animalPhoto.style.backgroundImage = `url(${animal.photo})`;
-
-                        const animalName = document.createElement('div');
-                        animalName.classList.add('animal-name');
-                        animalName.textContent = animal.name;
-
-                        animalCard.appendChild(animalPhoto);
-                        animalCard.appendChild(animalName);
-
-                        animalList.appendChild(animalCard);
-                    } else {
-                        // Si l'animal n'a pas de nom ou de photo, on ne l'affiche pas
-                        console.warn("Animal sans nom ou photo:", animal);
-                    }
-                });
+            if (animals.length === 0) {
+                errorMessage.style.display = 'block';
+                return;
             }
 
-            // Fonction pour récupérer les animaux de l'enclos
-            function fetchAnimals() {
-                fetch(`/api/animals/${enclosureId}`)
-                    .then(response => response.json())
+            console.log("Affichage des animaux:", animals); // Log pour afficher les animaux récupérés
+
+            animals.forEach(animal => {
+                console.log("Animal récupéré :", animal); // Log des informations de chaque animal
+
+                // Définir l'URL de la photo ou choisir une image par défaut aléatoire
+                let photoUrl = animal.photo ? animal.photo : getRandomDefaultImage();
+
+                console.log("Photo de l'animal : ", photoUrl); // Log pour vérifier l'URL de la photo
+
+                // Vérifier si l'animal a un nom valide
+                if (animal.name) {
+                    const animalCard = document.createElement('div');
+                    animalCard.classList.add('animal-card');
+
+                    // Utilisation de <img> pour afficher l'image de l'animal
+                    const animalPhoto = document.createElement('img');
+                    animalPhoto.classList.add('animal-photo');
+                    animalPhoto.src = photoUrl;
+
+                    // Gestionnaire d'erreurs pour les images
+                    animalPhoto.onerror = function() {
+                        this.src = getRandomDefaultImage();
+                    };
+
+                    const animalName = document.createElement('div');
+                    animalName.classList.add('animal-name');
+                    animalName.textContent = animal.name;
+
+                    animalCard.appendChild(animalPhoto);
+                    animalCard.appendChild(animalName);
+
+                    animalList.appendChild(animalCard);
+                } else {
+                    // Log des animaux sans nom
+                    console.warn("Animal sans nom :", animal);
+                }
+            });
+        }
+
+        // Fonction pour récupérer les animaux de l'enclos
+        function fetchAnimals() {
+            console.log(`Fetching animals for enclosure ID: ${enclosureId}`); // Log de l'ID de l'enclos
+
+            fetch(`/api/animals/${enclosureId}`)
+                .then(response => {
+                    console.log("Réponse brute de l'API :", response); // Log de la réponse brute
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Données des animaux récupérées :", data); // Log des données JSON
+                    displayAnimals(data);
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la récupération des animaux :", error);
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Erreur lors de la récupération des données.';
+                });
+        }
+
+        // Appel initial pour afficher tous les animaux de l'enclos
+        fetchAnimals();
+
+        // Écouteur de l'événement de recherche
+        searchInput.addEventListener('input', function () {
+            const searchValue = searchInput.value.trim();
+            if (searchValue) {
+                console.log(`Recherche d'animaux pour le terme : "${searchValue}" dans l'enclos ${enclosureId}`); // Log de la recherche
+
+                // Mettre à jour le message de résultat de recherche
+                searchResultMessage.style.display = 'block';
+                searchQuerySpan.textContent = searchValue;
+
+                fetch(`/api/animals/search/${searchValue}/${enclosureId}`)
+                    .then(response => {
+                        console.log("Réponse brute de la recherche :", response); // Log de la réponse brute
+                        if (!response.ok) {
+                            throw new Error('Animal non trouvé dans cet enclos');
+                        }
+                        return response.json();
+                    })
                     .then(data => {
+                        console.log("Résultats de la recherche :", data); // Log des résultats de la recherche
                         displayAnimals(data);
                     })
                     .catch(error => {
-                        console.error(error);
+                        console.error("Erreur lors de la recherche :", error);
+                        displayAnimals([]); // Réinitialiser la liste
                         errorMessage.style.display = 'block';
-                        errorMessage.textContent = 'Erreur lors de la récupération des données.';
                     });
+            } else {
+                console.log("Barre de recherche vide, rechargement des animaux.");
+                searchResultMessage.style.display = 'none';
+                fetchAnimals();
             }
-
-            // Appel initial pour afficher tous les animaux de l'enclos
-            fetchAnimals();
-
-            // Écouteur de l'événement de recherche
-            searchInput.addEventListener('input', function () {
-                const searchValue = searchInput.value.trim();
-                if (searchValue) {
-                    // Mettre à jour le message de résultat de recherche
-                    searchResultMessage.style.display = 'block';
-                    searchQuerySpan.textContent = searchValue;
-
-                    // Si la recherche a une valeur, on cherche l'animal
-                    fetch(`/api/animals/search/${searchValue}/${enclosureId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Animal non trouvé dans cet enclos');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // data est un tableau d'animaux, même si un seul animal est trouvé
-                            displayAnimals(data); // Passez le tableau entier
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            // Réinitialiser la liste et afficher un message d'erreur
-                            displayAnimals([]);
-                            errorMessage.style.display = 'block';
-                        });
-                } else {
-                    // Si la barre de recherche est vide, afficher tous les animaux
-                    searchResultMessage.style.display = 'none';
-                    fetchAnimals();
-                }
-            });
         });
+    });
     </script>
 </body>
 </html>

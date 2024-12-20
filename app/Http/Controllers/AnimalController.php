@@ -60,13 +60,15 @@ public function searchAnimalsInEnclosure($name, $enclosureId)
     }
 
     // Formatage de la réponse
-    return response()->json($animals->map(function ($animal) {
+    $formattedAnimals = $animals->map(function ($animal) {
         return [
             'id' => $animal->id,
             'name' => $animal->name,
             'photo' => $animal->photo,
         ];
-    }));
+    })->values(); // Utiliser ->values() pour réinitialiser les clés de collection
+
+    return response()->json($formattedAnimals);
 }
 
     

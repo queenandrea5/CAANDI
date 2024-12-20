@@ -71,7 +71,9 @@ Route::get('enclos/{id}', [EnclosController::class, 'getEnclosures']);
 
 //Route::post('/animals', [AnimalController::class, 'store']); // Ajouter un animal
 
+// Récupérer un biome par son nom
 
+Route::get('/biomes/search/{name}', [BiomeController::class, 'searchBiomes']);
 Route::get('/animals/search/{name}/{enclosure_id}', [AnimalController::class, 'searchAnimalsInEnclosure']);
 
 
