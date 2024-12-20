@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('https://th.bing.com/th/id/R.bacbdc22d9aa23f1861f9b739f0505b6?rik=QIEcQKDcdCHcCA&pid=ImgRaw&r=0');
+            background-image: url('https://i.pinimg.com/originals/a4/f8/0c/a4f80cf30e2108edd890366c782e1344.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;

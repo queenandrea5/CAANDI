@@ -167,7 +167,7 @@
 
     <!-- Footer -->
     <div class="footer">
-        <p>Made by <strong>Andrea and Dimitri</strong>,   @2024</p>
+        <p>Made by <strong>DIMITRI and ANDREA</strong>,   @2024</p>
     </div>
 
     <!-- Bootstrap JS -->
@@ -175,14 +175,14 @@
         const video = document.querySelector('.video-background');
         video.addEventListener('loadedmetadata', () => {
             video.currentTime = 0;
-            video.loop = true;
+            video.loop = false; // Désactiver la boucle pour éviter les conflits
+        });
 
-            // Limiter la durée de la boucle à 15 secondes
-            video.addEventListener('timeupdate', () => {
-                if (video.currentTime >= 15) {
-                    video.currentTime = 0; // Repartir à 0 pour créer une boucle de 15 secondes
-                }
-            });
+        // Event listener pour couper la vidéo après 15 secondes
+        video.addEventListener('timeupdate', () => {
+            if (video.currentTime >= 15) {
+                video.currentTime = 0; // Repartir à zéro
+            }
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

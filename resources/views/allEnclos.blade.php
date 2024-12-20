@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-image: url('https://th.bing.com/th/id/R.7fdc63745448ef10d8c23c4f4d5c8ae7?rik=bgldQXYe1TlgTQ&pid=ImgRaw&r=0');
+            background-image: url('https://th.bing.com/th/id/R.0482ea6204b688bb510139f08e242429?rik=6ugDLdOUNy6IRg&riu=http%3a%2f%2fi2.cdscdn.com%2fpdt2%2f9%2f3%2f8%2f1%2f700x700%2fauc6932185950938%2frw%2fparc-enclos-pour-chiens.jpg&ehk=HAoLiwujILfUHUQ67KDGUrCuXo%2bAIs6C%2bgbhBFNtjNc%3d&risl=&pid=ImgRaw&r=0');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
