@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\BiomeController;
-
+use App\Http\Controllers\EnclosController;
 
 Route::get('/hazaro', function () {
     return 'bonjour';
@@ -63,6 +63,7 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 
 Route::get('/animals', [AnimalController::class, 'getAnimals']);
 Route::get('/biomes', [BiomeController::class, 'getAllBiomes']);
+Route::get('enclos/{id}', [EnclosController::class, 'getEnclosures']);
 //Route::get('/animals/{enclosure_id}', [AnimalController::class, 'getAnimals']);
 //Route::get('/animals', [AnimalController::class, 'index']); // Lister tous les animaux
 
@@ -71,7 +72,14 @@ Route::get('/biomes', [BiomeController::class, 'getAllBiomes']);
 //Route::post('/animals', [AnimalController::class, 'store']); // Ajouter un animal
 
 
-Route::get('/animals/{name}', [AnimalController::class, 'search']);
+Route::get('/animals/search/{name}/{enclosure_id}', [AnimalController::class, 'searchAnimalsInEnclosure']);
+
+
+
+// web.php
+
+Route::get('/animals/{enclosureId}', [AnimalController::class, 'getAnimals']);
+
 
 Route::post('/reviews', [ReviewController::class, 'store']); // Ajouter un avis
 

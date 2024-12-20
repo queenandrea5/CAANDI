@@ -4,42 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carte interactive du Parc Animalier</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         #map {
             height: 80vh; /* La carte occupe 80% de la hauteur */
+            margin-bottom: 20px;
+        }
+        .distance-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
         }
         .controls {
             padding: 20px;
             background: white;
             border: 1px solid #ccc;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
         }
-        .distance-info {
-            background: white;
-            padding: 10px;
-            border: 1px solid #ccc;
+        .controls label {
             font-size: 14px;
+        }
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .container-main {
+            margin-top: 90px; /* To avoid overlap with the sticky header */
+        }
+        .distance-text-top {
+            font-weight: bold; /* Make the text bold */
+            font-size: 20px;
+            color: #007bff; /* Optional: Add color for better visibility */
         }
     </style>
 </head>
 <body>
-    <div class="controls">
-        <label for="start">Votre position actuelle :</label>
-        <select id="start">
-            <option value="">Sélectionnez votre position</option>
-        </select>
-        <label for="destination">Votre destination :</label>
-        <select id="destination">
-            <option value="">Sélectionnez votre destination</option>
-        </select>
-        <button onclick="calculateRoute()">Calculer l'itinéraire</button>
+    <!-- Sticky Header for Distance and Time -->
+    <div class="sticky-header text-center">
+        <div id="distance-text" class="distance-text-top">La distance et le temps seront affichés ici après calcul.</div>
     </div>
-    <div id="map"></div>
-    <div class="distance-info">
-        <p id="distance-text">La distance et le temps seront affichés ici après calcul.</p>
+
+    <div class="container my-5 container-main">
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="controls shadow-sm">
+                    <h4>Calculer votre itinéraire</h4>
+                    <div class="form-group">
+                        <label for="start">Votre position actuelle :</label>
+                        <select id="start" class="form-control">
+                            <option value="">Sélectionnez votre position</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Votre destination :</label>
+                        <select id="destination" class="form-control">
+                            <option value="">Sélectionnez votre destination</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="calculateRoute()">Calculer l'itinéraire</button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="map"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="distance-info shadow-sm">
+                    <p id="distance-text-bottom">La distance et le temps seront affichés ici après calcul.</p>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
         // Initialisation de la carte
@@ -141,9 +194,14 @@
                 destinationLocation.coords
             );
 
+            // Mise à jour du texte dans le sticky header
             document.getElementById("distance-text").innerText = `
-                Distance : ${result.distance} mètres
-                Temps estimé : ${result.time}
+                Distance : ${result.distance} mètres | Temps estimé : ${result.time}
+            `;
+
+            // Mise à jour du texte en bas (à des fins de redondance)
+            document.getElementById("distance-text-bottom").innerText = `
+                Distance : ${result.distance} mètres | Temps estimé : ${result.time}
             `;
 
             // Ajouter des marqueurs pour le départ et la destination
